@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Landing Page Sederhana</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Animate.css -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg-light: #f8fafc;
+        --bg-accent: #e0e7ff;
+        --text: #0f172a;
+        --surface: #ffffff;
+        --surface-2: #ffffff;
+        --shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+      }
+      body {
+        background: linear-gradient(
+          135deg,
+          var(--bg-light) 0%,
+          var(--bg-accent) 100%
+        );
+        color: var(--text);
+      }
+      .navbar-brand {
+        font-weight: 700;
+        letter-spacing: 2px;
+      }
+      .hero-cta {
+        animation: pulse 2s infinite;
+      }
+      .card {
+        border: none;
+        transition: transform 0.2s, box-shadow 0.2s;
+        background: var(--surface);
+      }
+      .card:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+      }
+      .testimonial {
+        background: var(--surface);
+        border-radius: 1rem;
+        box-shadow: var(--shadow);
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+      .testimonial-img {
+        width: 64px;
+        height: 64px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-bottom: 1rem;
+      }
+      .floating-btn {
+        position: fixed;
+        bottom: 32px;
+        right: 32px;
+        z-index: 999;
+        background: #0d6efd;
+        color: #fff;
+        border-radius: 50%;
+        width: 56px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        box-shadow: 0 4px 16px rgba(13, 110, 253, 0.2);
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .floating-btn:hover {
+        background: #0b5ed7;
+      }
+      .hero-svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 220px;
+        z-index: 0;
+      }
+      .dark-toggle {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        z-index: 1001;
+        background: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+      .progress-bar-custom {
+        height: 6px;
+        background: #e0e7ff;
+        border-radius: 3px;
+        overflow: hidden;
+        margin-bottom: 0;
+      }
+      .progress-bar-inner {
+        height: 100%;
+        background: linear-gradient(90deg, #0d6efd, #6366f1);
+        width: 0%;
+        transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* FAQ base (lama) */
+      .faq-item {
+        border-bottom: 1px solid #e5e7eb;
+      }
+      .faq-question {
+        cursor: pointer;
+        font-weight: 500;
+      }
+      .faq-answer {
+        display: none;
+        padding: 0.5rem 0 1rem;
+      }
+      .faq-item.active .faq-answer {
+        display: block;
+      }
+
+      @media (max-width: 768px) {
+        .hero-svg {
+          height: 120px;
+        }
+      }
+
+      /* ------------------ DARK MODE ------------------ */
+      .dark-mode {
+        --bg-light: #18181b;
+        --bg-accent: #1e293b;
+        --text: #f1f5f9;
+        --surface: #22223b;
+        --surface-2: #1f2937;
+        --shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+        background: linear-gradient(
+          135deg,
+          var(--bg-light) 0%,
+          var(--bg-accent) 100%
+        ) !important;
+        color: var(--text) !important;
+      }
+      .dark-mode .navbar,
+      .dark-mode .footer,
+      .dark-mode .card,
+      .dark-mode .testimonial {
+        background: var(--surface) !important;
+        color: var(--text) !important;
+      }
+      .dark-mode .bg-light,
+      .dark-mode section.bg-light {
+        background-color: var(--bg-light) !important;
+        color: var(--text) !important;
+      }
+      .dark-mode .bg-white,
+      .dark-mode section.bg-white {
+        background-color: var(--surface) !important;
+        color: var(--text) !important;
+      }
+      .dark-mode .text-dark {
+        color: var(--text) !important;
+      }
+      .dark-mode .accordion-button,
+      .dark-mode .faq-item {
+        background: var(--surface);
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.08);
+      }
+      .dark-mode .form-control,
+      .dark-mode .form-select,
+      .dark-mode textarea {
+        background-color: #0f172a;
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.15);
+      }
+      .dark-mode .form-control::placeholder {
+        color: #94a3b8;
+      }
+      .dark-mode .alert {
+        background: #0b1220;
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.12);
+      }
+      .dark-mode .dark-toggle {
+        background: #22223b;
+        color: #f1f5f9;
+      }
+      .dark-mode .navbar a.nav-link {
+        color: #e5e7eb !important;
+      }
+      .dark-mode .navbar a.nav-link.active {
+        color: #fff !important;
+      }
+      .dark-mode .progress-bar-custom {
+        background: #0b1220;
+      }
+
+      /* ---- FAQ Baru: UI enhancements ---- */
+      .faq-chip {
+        border-radius: 999px;
+        padding: 0.35rem 0.75rem;
+      }
+      .faq-chip.active {
+        background: #0d6efd;
+        color: #fff;
+        border-color: #0d6efd;
+      }
+      .accordion-button .chevron {
+        transition: transform 0.2s ease;
+      }
+      .accordion-button:not(.collapsed) .chevron {
+        transform: rotate(180deg);
+      }
+      .accordion-item {
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 0.75rem;
+        overflow: hidden;
+        margin-bottom: 0.75rem;
+      }
+      .accordion-button {
+        gap: 0.5rem;
+      }
+      mark.faq-hit {
+        padding: 0 0.15em;
+        border-radius: 0.2em;
+      }
+
+      /* dark harmony chips/mark */
+      .dark-mode .accordion-item {
+        border-color: rgba(255, 255, 255, 0.08);
+      }
+      .dark-mode .faq-chip {
+        border-color: rgba(255, 255, 255, 0.2);
+        color: #e5e7eb;
+      }
+      .dark-mode .faq-chip.active {
+        background: #6366f1;
+        border-color: #6366f1;
+      }
+      .dark-mode mark.faq-hit {
+        background: #3b82f6;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">BrandKu</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Beranda</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#fitur">Fitur</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#ai-demo">AI Demo</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="#kontak">Kontak</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Dark Mode Toggle -->
+    <button
+      class="dark-toggle"
+      id="darkToggle"
+      title="Toggle dark mode"
+      aria-pressed="false"
+    >
+      🌙
+    </button>
+
+    <!-- Hero -->
+    <section
+      class="bg-light text-center py-5 position-relative"
+      style="overflow: hidden"
+    >
+      <svg
+        class="hero-svg"
+        viewBox="0 0 1440 220"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0,160 C480,240 960,80 1440,160 L1440,0 L0,0 Z"
+          fill="#6366f1"
+          fill-opacity="0.12"
+        />
+        <circle cx="1200" cy="60" r="40" fill="#0d6efd" fill-opacity="0.18" />
+        <circle cx="200" cy="120" r="32" fill="#6366f1" fill-opacity="0.12" />
+      </svg>
+      <div class="container position-relative" style="z-index: 1">
+        <h1 class="display-4 animate__animated animate__fadeInDown">
+          Selamat Datang di <span class="text-primary">BrandKu</span>!
+        </h1>
+        <p class="lead animate__animated animate__fadeInUp animate__delay-1s">
+          Platform inovatif untuk solusi digital masa kini. Raih kemudahan,
+          kecepatan, dan keamanan dalam satu genggaman.
+        </p>
+        <div class="progress-bar-custom mb-4 mx-auto" style="max-width: 400px">
+          <div class="progress-bar-inner" id="progressBar"></div>
+        </div>
+        <a
+          href="#fitur"
+          class="btn btn-primary btn-lg hero-cta animate__animated animate__pulse animate__infinite"
+          >Pelajari Lebih Lanjut</a
+        >
+        <div class="mt-4 animate__animated animate__fadeInUp animate__delay-2s">
+          <img
+            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=600&h=200&q=80"
+            alt="Hero"
+            class="img-fluid rounded shadow"
+            style="max-width: 500px"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Demo -->
+    <section id="ai-demo" class="py-5 bg-white">
+      <div class="container">
+        <h2 class="text-center mb-4">AI Demo: Ringkas Teks Otomatis</h2>
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="card p-4 shadow-sm">
+              <label for="aiInput" class="form-label"
+                >Masukkan teks panjang (contoh: artikel, berita, dsb):</label
+              >
+              <textarea
+                id="aiInput"
+                class="form-control mb-3"
+                rows="4"
+                placeholder="Tulis atau paste teks di sini..."
+              ></textarea>
+              <button class="btn btn-success mb-3" id="aiBtn">
+                Ringkas dengan AI
+              </button>
+              <div id="aiLoading" class="text-center d-none">
+                <div class="spinner-border text-primary"></div>
+                <p>Memproses...</p>
+              </div>
+              <div id="aiOutput" class="alert alert-info d-none"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ (baru, lebih bagus) -->
+    <section id="faq" class="py-5 bg-light">
+      <div class="container">
+        <h2 class="text-center mb-2">Pertanyaan yang Sering Diajukan</h2>
+        <p class="text-center text-muted mb-4">
+          Cari jawaban tercepat tentang BrandKu. Jika masih buntu, hubungi kami
+          lewat form di bawah.
+        </p>
+
+        <!-- Toolbar: Search + Chips -->
+        <div class="row justify-content-center mb-4">
+          <div class="col-lg-8">
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+              <div class="flex-grow-1">
+                <input
+                  id="faqSearch"
+                  type="search"
+                  class="form-control"
+                  placeholder="Cari: akun, harga, keamanan, integrasi..."
+                  aria-label="Cari FAQ"
+                />
+              </div>
+              <div class="d-flex flex-wrap gap-2">
+                <button
+                  class="btn btn-outline-secondary btn-sm faq-chip active"
+                  data-category="all"
+                >
+                  Semua
+                </button>
+                <button
+                  class="btn btn-outline-secondary btn-sm faq-chip"
+                  data-category="umum"
+                >
+                  Umum
+                </button>
+                <button
+                  class="btn btn-outline-secondary btn-sm faq-chip"
+                  data-category="akun"
+                >
+                  Akun
+                </button>
+                <button
+                  class="btn btn-outline-secondary btn-sm faq-chip"
+                  data-category="harga"
+                >
+                  Harga
+                </button>
+                <button
+                  class="btn btn-outline-secondary btn-sm faq-chip"
+                  data-category="keamanan"
+                >
+                  Keamanan
+                </button>
+                <button
+                  class="btn btn-outline-secondary btn-sm faq-chip"
+                  data-category="integrasi"
+                >
+                  Integrasi
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="text-center mb-3">
+          <button id="faqOpenAll" class="btn btn-link">Buka semua</button>
+          <span class="text-muted">·</span>
+          <button id="faqCloseAll" class="btn btn-link">Tutup semua</button>
+        </div>
+
+        <!-- Accordion -->
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="accordion accordion-flush" id="faqAccordion">
+              <div class="accordion-item" data-category="umum">
+                <h3 class="accordion-header" id="q1">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#a1"
+                    aria-expanded="false"
+                    aria-controls="a1"
+                  >
+                    Apa itu BrandKu dan untuk siapa?
+                    <span class="ms-auto chevron">▾</span>
+                  </button>
+                </h3>
+                <div
+                  id="a1"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="q1"
+                  data-bs-parent="#faqAccordion"
+                >
+                  <div class="accordion-body">
+                    BrandKu adalah platform solusi digital untuk UMKM,
+                    freelancer, dan tim kecil agar bisa meluncurkan
+                    website/landing page cepat, aman, dan mudah diintegrasikan
+                    dengan layanan populer.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item" data-category="harga">
+                <h3 class="accordion-header" id="q2">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#a2"
+                    aria-expanded="false"
+                    aria-controls="a2"
+                  >
+                    Apakah BrandKu gratis? Bagaimana skema harganya?
+                    <span class="ms-auto chevron">▾</span>
+                  </button>
+                </h3>
+                <div
+                  id="a2"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="q2"
+                  data-bs-parent="#faqAccordion"
+                >
+                  <div class="accordion-body">
+                    Ada paket Gratis untuk mulai cepat. Paket Premium
+                    menambahkan fitur kustom domain, bandwidth lebih besar,
+                    analitik lanjutan, serta prioritas support. Detail harga
+                    tertera di dashboard penagihan.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item" data-category="akun">
+                <h3 class="accordion-header" id="q3">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#a3"
+                    aria-expanded="false"
+                    aria-controls="a3"
+                  >
+                    Bagaimana cara membuat dan memverifikasi akun?
+                    <span class="ms-auto chevron">▾</span>
+                  </button>
+                </h3>
+                <div
+                  id="a3"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="q3"
+                  data-bs-parent="#faqAccordion"
+                >
+                  <div class="accordion-body">
+                    Daftar dengan email aktif, lalu cek inbox untuk tautan
+                    verifikasi. Jika email tidak masuk dalam 5 menit, cek folder
+                    spam atau kirim ulang verifikasi dari halaman profil.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item" data-category="keamanan">
+                <h3 class="accordion-header" id="q4">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#a4"
+                    aria-expanded="false"
+                    aria-controls="a4"
+                  >
+                    Apakah data saya aman di BrandKu?
+                    <span class="ms-auto chevron">▾</span>
+                  </button>
+                </h3>
+                <div
+                  id="a4"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="q4"
+                  data-bs-parent="#faqAccordion"
+                >
+                  <div class="accordion-body">
+                    Kami menerapkan enkripsi in-transit (HTTPS), pembatasan
+                    akses berbasis peran (RBAC), audit log, dan backup
+                    terjadwal. Aktifkan 2FA di pengaturan akun untuk
+                    perlindungan ekstra.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item" data-category="integrasi">
+                <h3 class="accordion-header" id="q5">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#a5"
+                    aria-expanded="false"
+                    aria-controls="a5"
+                  >
+                    Layanan apa saja yang bisa diintegrasikan?
+                    <span class="ms-auto chevron">▾</span>
+                  </button>
+                </h3>
+                <div
+                  id="a5"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="q5"
+                  data-bs-parent="#faqAccordion"
+                >
+                  <div class="accordion-body">
+                    BrandKu mendukung integrasi email marketing, pembayaran
+                    (midtrans/xendit), live chat, analitik, dan webhook.
+                    Integrasi lain dapat ditambah lewat API dan embed script.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item" data-category="umum">
+                <h3 class="accordion-header" id="q6">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#a6"
+                    aria-expanded="false"
+                    aria-controls="a6"
+                  >
+                    Bagaimana cara memigrasikan website yang sudah ada?
+                    <span class="ms-auto chevron">▾</span>
+                  </button>
+                </h3>
+                <div
+                  id="a6"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="q6"
+                  data-bs-parent="#faqAccordion"
+                >
+                  <div class="accordion-body">
+                    Ekspor konten dari platform lama (HTML/ZIP), lalu impor ke
+                    BrandKu melalui wizard. Untuk struktur kompleks, gunakan
+                    panduan Migrasi atau minta bantuan tim support.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item" data-category="harga">
+                <h3 class="accordion-header" id="q7">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#a7"
+                    aria-expanded="false"
+                    aria-controls="a7"
+                  >
+                    Bisakah upgrade/downgrade paket kapan saja?
+                    <span class="ms-auto chevron">▾</span>
+                  </button>
+                </h3>
+                <div
+                  id="a7"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="q7"
+                  data-bs-parent="#faqAccordion"
+                >
+                  <div class="accordion-body">
+                    Bisa. Perubahan paket berlaku pro-rata pada siklus tagihan
+                    berjalan. Tidak ada biaya tambahan tersembunyi.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item" data-category="integrasi">
+                <h3 class="accordion-header" id="q8">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#a8"
+                    aria-expanded="false"
+                    aria-controls="a8"
+                  >
+                    Apakah BrandKu punya API?
+                    <span class="ms-auto chevron">▾</span>
+                  </button>
+                </h3>
+                <div
+                  id="a8"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="q8"
+                  data-bs-parent="#faqAccordion"
+                >
+                  <div class="accordion-body">
+                    Ya. Gunakan API untuk otomasi konten, sinkronisasi data, dan
+                    integrasi kustom. Dokumentasi endpoint tersedia di menu
+                    Developer.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Empty state -->
+            <div id="faqEmpty" class="text-center d-none mt-4">
+              <p class="text-muted mb-2">Tidak ditemukan hasil yang cocok.</p>
+              <a href="#kontak" class="btn btn-outline-primary btn-sm"
+                >Tanya tim support</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEO: FAQPage JSON-LD -->
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Apa itu BrandKu dan untuk siapa?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "BrandKu adalah platform solusi digital untuk UMKM, freelancer, dan tim kecil agar bisa meluncurkan website/landing page cepat, aman, dan mudah diintegrasikan."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Apakah BrandKu gratis? Bagaimana skema harganya?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ada paket Gratis untuk mulai cepat. Paket Premium menambahkan kustom domain, bandwidth lebih besar, analitik lanjutan, dan prioritas support."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Bagaimana cara membuat dan memverifikasi akun?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Daftar dengan email aktif lalu verifikasi via tautan di inbox. Jika belum masuk, cek spam atau kirim ulang dari profil."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Apakah data saya aman di BrandKu?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Enkripsi HTTPS, RBAC, audit log, backup terjadwal, dan opsi 2FA di pengaturan akun."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Layanan apa saja yang bisa diintegrasikan?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Email marketing, pembayaran, live chat, analitik, webhook, serta API untuk integrasi kustom."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Bagaimana cara memigrasikan website yang sudah ada?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Impor HTML/ZIP melalui wizard atau ikuti panduan Migrasi. Tim support siap bantu untuk struktur kompleks."
+              }
+            }
+          ]
+        }
+      </script>
+    </section>
+
+    <!-- Fitur -->
+    <section id="fitur" class="py-5">
+      <div class="container">
+        <h2 class="text-center mb-4">Fitur Utama</h2>
+        <div class="row text-center">
+          <div class="col-md-4">
+            <div class="card p-4 shadow-sm">
+              <h3>⚡ Cepat</h3>
+              <p>Website ringan dan cepat diakses dari berbagai perangkat.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card p-4 shadow-sm">
+              <h3>📱 Responsif</h3>
+              <p>Tampilan menyesuaikan otomatis di HP, tablet, dan laptop.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card p-4 shadow-sm">
+              <h3>🔒 Aman</h3>
+              <p>Dilengkapi standar keamanan modern untuk melindungi data.</p>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="col-md-6">
+            <div class="card p-4 shadow-sm text-start">
+              <h4>🌐 Integrasi Mudah</h4>
+              <p>
+                Terhubung dengan berbagai layanan populer hanya dengan beberapa
+                klik.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card p-4 shadow-sm text-start">
+              <h4>🛠️ Kustomisasi Fleksibel</h4>
+              <p>
+                Sesuaikan tampilan dan fitur sesuai kebutuhan Anda tanpa ribet.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimoni -->
+    <section id="testimoni" class="py-5 bg-white">
+      <div class="container">
+        <h2 class="text-center mb-4">Apa Kata Mereka?</h2>
+        <div class="row justify-content-center">
+          <div class="col-md-4">
+            <div
+              class="testimonial text-center animate__animated animate__fadeInLeft"
+            >
+              <img
+                src="https://randomuser.me/api/portraits/men/32.jpg"
+                class="testimonial-img"
+                alt="User 1"
+              />
+              <blockquote class="mb-2">
+                "BrandKu sangat membantu bisnis saya berkembang pesat!"
+              </blockquote>
+              <figcaption class="blockquote-footer">Andi, Pengusaha</figcaption>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div
+              class="testimonial text-center animate__animated animate__fadeInUp"
+            >
+              <img
+                src="https://randomuser.me/api/portraits/women/44.jpg"
+                class="testimonial-img"
+                alt="User 2"
+              />
+              <blockquote class="mb-2">
+                "Tampilan modern dan fitur lengkap, recommended!"
+              </blockquote>
+              <figcaption class="blockquote-footer">
+                Siti, Freelancer
+              </figcaption>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div
+              class="testimonial text-center animate__animated animate__fadeInRight"
+            >
+              <img
+                src="https://randomuser.me/api/portraits/men/65.jpg"
+                class="testimonial-img"
+                alt="User 3"
+              />
+              <blockquote class="mb-2">
+                "Sangat mudah digunakan, supportnya juga responsif."
+              </blockquote>
+              <figcaption class="blockquote-footer">Budi, Mahasiswa</figcaption>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Kontak -->
+    <section id="kontak" class="bg-light py-5">
+      <div class="container">
+        <h2 class="text-center mb-4">Kontak Kami</h2>
+        <form class="mx-auto" style="max-width: 600px" id="kontakForm">
+          <div class="mb-3">
+            <label for="nama" class="form-label">Nama</label
+            ><input type="text" class="form-control" id="nama" required />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label
+            ><input type="email" class="form-control" id="email" required />
+          </div>
+          <div class="mb-3">
+            <label for="pesan" class="form-label">Pesan</label
+            ><textarea
+              class="form-control"
+              id="pesan"
+              rows="4"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Kirim</button>
+          <div
+            id="formAlert"
+            class="alert alert-success mt-3 d-none"
+            role="alert"
+          >
+            Terima kasih! Pesan Anda telah terkirim.
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 footer">
+      <p class="mb-0">
+        &copy; 2025 BrandKu. All rights reserved. |
+        <a href="#" class="text-white text-decoration-underline"
+          >Kebijakan Privasi</a
+        >
+      </p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Interaktif JS -->
+    <script>
+      // Tema
+      const THEME_KEY = "brandku-theme";
+      const prefersDark =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+      function applyTheme(theme) {
+        const isDark = theme === "dark";
+        document.body.classList.toggle("dark-mode", isDark);
+        const btn = document.getElementById("darkToggle");
+        if (btn) {
+          btn.textContent = isDark ? "☀️" : "🌙";
+          btn.setAttribute("aria-pressed", String(isDark));
+          btn.setAttribute(
+            "aria-label",
+            isDark ? "Matikan mode gelap" : "Nyalakan mode gelap"
+          );
+        }
+      }
+      (function initTheme() {
+        const saved = localStorage.getItem(THEME_KEY);
+        applyTheme(
+          saved === "dark" || (saved !== "light" && prefersDark)
+            ? "dark"
+            : "light"
+        );
+      })();
+      document.getElementById("darkToggle").addEventListener("click", () => {
+        const toDark = !document.body.classList.contains("dark-mode");
+        const next = toDark ? "dark" : "light";
+        localStorage.setItem(THEME_KEY, next);
+        applyTheme(next);
+      });
+
+      // Smooth scroll
+      document.querySelectorAll("a.nav-link, .hero-cta").forEach((link) => {
+        link.addEventListener("click", function (e) {
+          const href = this.getAttribute("href");
+          if (href && href.startsWith("#")) {
+            e.preventDefault();
+            document.querySelector(href).scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+
+      // Form kontak
+      document
+        .getElementById("kontakForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          document.getElementById("formAlert").classList.remove("d-none");
+          this.reset();
+          setTimeout(
+            () => document.getElementById("formAlert").classList.add("d-none"),
+            3500
+          );
+        });
+
+      // Floating CTA
+      const floatBtn = document.createElement("div");
+      floatBtn.className = "floating-btn";
+      floatBtn.title = "Hubungi Kami";
+      floatBtn.innerHTML = "<span>💬</span>";
+      floatBtn.onclick = () =>
+        document
+          .getElementById("kontak")
+          .scrollIntoView({ behavior: "smooth" });
+      document.body.appendChild(floatBtn);
+
+      // Progress bar
+      window.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+          const pb = document.getElementById("progressBar");
+          if (pb) pb.style.width = "100%";
+        }, 600);
+      });
+
+      // ===== FAQ logic =====
+      (function () {
+        const accordion = document.getElementById("faqAccordion");
+        const searchInput = document.getElementById("faqSearch");
+        const chips = document.querySelectorAll(".faq-chip");
+        const emptyState = document.getElementById("faqEmpty");
+        const items = Array.from(accordion.querySelectorAll(".accordion-item"));
+        const btnOpenAll = document.getElementById("faqOpenAll");
+        const btnCloseAll = document.getElementById("faqCloseAll");
+
+        let activeCategory = "all";
+        let query = "";
+
+        // Cache original text for highlight restore
+        items.forEach((it) => {
+          const btn = it.querySelector(".accordion-button");
+          const body = it.querySelector(".accordion-body");
+          btn.dataset.orig = btn.innerHTML;
+          body.dataset.orig = body.innerHTML;
+        });
+
+        function normalize(s) {
+          return s.toLowerCase().trim();
+        }
+
+        function highlight(el, q) {
+          // restore original first
+          el.innerHTML = el.dataset.orig;
+          if (!q) return;
+          const text = el.innerHTML;
+          const esc = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          const re = new RegExp(`(${esc})`, "gi");
+          el.innerHTML = text.replace(re, '<mark class="faq-hit">$1</mark>');
+        }
+
+        function visibleByCategory(it) {
+          return (
+            activeCategory === "all" || it.dataset.category === activeCategory
+          );
+        }
+
+        function visibleByQuery(it) {
+          if (!query) return true;
+          const btn = it.querySelector(".accordion-button");
+          const body = it.querySelector(".accordion-body");
+          const text = (btn.textContent + " " + body.textContent).toLowerCase();
+          return text.includes(query);
+        }
+
+        function applyFilters() {
+          let any = false;
+          items.forEach((it) => {
+            const ok = visibleByCategory(it) && visibleByQuery(it);
+            it.style.display = ok ? "" : "none";
+            if (ok) {
+              any = true;
+            }
+            // highlight parts (even if hidden before restore already done in highlight call)
+            highlight(it.querySelector(".accordion-button"), query);
+            highlight(it.querySelector(".accordion-body"), query);
+          });
+          emptyState.classList.toggle("d-none", any);
+        }
+
+        // Chips
+        chips.forEach((chip) => {
+          chip.addEventListener("click", () => {
+            chips.forEach((c) => c.classList.remove("active"));
+            chip.classList.add("active");
+            activeCategory = chip.dataset.category || "all";
+            applyFilters();
+          });
+        });
+
+        // Search realtime
+        searchInput.addEventListener("input", () => {
+          query = normalize(searchInput.value);
+          applyFilters();
+        });
+
+        // Open/Close all
+        function eachCollapse(cb) {
+          items.forEach((it) => {
+            if (it.style.display === "none") return; // skip hidden by filter
+            const col = it.querySelector(".accordion-collapse");
+            const inst = bootstrap.Collapse.getOrCreateInstance(col, {
+              toggle: false,
+            });
+            cb(inst);
+          });
+        }
+        btnOpenAll.addEventListener("click", (e) => {
+          e.preventDefault();
+          eachCollapse((i) => i.show());
+        });
+        btnCloseAll.addEventListener("click", (e) => {
+          e.preventDefault();
+          eachCollapse((i) => i.hide());
+        });
+
+        // Initial apply
+        applyFilters();
+      })();
+
+      // (opsional) FAQ lama clicker—dibiarkan aktif kalau masih ada elemen dengan .faq-question di tempat lain
+      document.querySelectorAll(".faq-question").forEach((q) => {
+        q.addEventListener("click", function () {
+          const item = this.parentElement;
+          item.classList.toggle("active");
+        });
+      });
+
+      // AI Demo (simulasi)
+      document.getElementById("aiBtn").onclick = function () {
+        const input = document.getElementById("aiInput").value.trim();
+        const output = document.getElementById("aiOutput");
+        const loading = document.getElementById("aiLoading");
+        output.classList.add("d-none");
+        if (!input) return;
+        loading.classList.remove("d-none");
+        setTimeout(() => {
+          loading.classList.add("d-none");
+          let sentences = input.match(/[^.!?]+[.!?]+/g) || [input];
+          let summary = sentences.slice(0, 2).join(" ");
+          if (summary.length < 10)
+            summary = "Teks terlalu singkat untuk diringkas.";
+          output.innerText = summary;
+          output.classList.remove("d-none");
+        }, 1200);
+      };
+    </script>
+  </body>
+</html>
